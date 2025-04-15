@@ -1,32 +1,30 @@
-name: Python CI
+name: CI Workflow
 
 on:
   push:
-    branches: [ main, teste_projetinho ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - teste_projetinho
 
 jobs:
-  test:
-    runs-on: ubuntu-latest  # Ou use windows-latest ou macos-latest, dependendo do seu ambiente
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2  # Faz checkout do repositório no GitHub Actions
+      - name: Check out the repository
+        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'  # Use a versão do Python que você está usando no projeto
-
-      - name: Install pip
-        run: |
-          python -m ensurepip --upgrade  # Instala o pip
-          python -m pip install --upgrade pip  # Atualiza o pip para a versão mais recente
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt  # Instala as dependências do seu projeto
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run tests
         run: |
-          pytest  # Ou qualquer outro comando para rodar os testes do seu projeto
+          echo "Sem testes definidos ainda"
+          # pytest  # Descomente se você tiver testes
