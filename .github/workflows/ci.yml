@@ -1,40 +1,42 @@
-name: CI/CD Pipeline - Docker Build
+name: Continuous Integration
 
 on:
   push:
     branches:
       - main
-      - teste_projetinho
-  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout do repositório
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Configurar o Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Instalar dependências
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Testar aplicação (exemplo)
-      run: |
-        echo "Rodando testes (simulado)"
-        # Aqui você pode rodar `pytest`, por exemplo
-        # pytest
+      - name: Run tests
+        run: |
+          pytest
 
-    - name: Build da imagem Docker
-      run: |
-        docker build -t projetinho .
+      - name: Build Docker image
+        run: |
+          docker build -t nekas27/projetinho .
 
-    - name: Verificar se container roda
-      run: |
-        docker run -d -p 5000:5000 projetinho
+      - name: Save Docker image as artifact
+        run: |
+          docker save nekas27/projetinho > projetinho-image.tar
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: projetinho-image
+          path: projetinho-image.tar
