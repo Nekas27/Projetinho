@@ -38,3 +38,10 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: |
           docker push nekas27/projetinho --debug
+
+      - name: Enviar alerta para Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\": \"✅ Deploy realizado com sucesso no repositório ${{ github.repository }}!\"}" \
+          ${{ secrets.DISCORD_WEBHOOK }}
