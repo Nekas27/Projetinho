@@ -6,6 +6,9 @@ on:
       - main
       - teste_projetinho
   pull_request:
+    branches:
+      - main
+      - teste_projetinho
 
 jobs:
   build:
@@ -25,11 +28,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Testar aplicação (exemplo)
+    - name: Rodar testes unitários
       run: |
-        echo "Rodando testes (simulado)"
-        # Aqui você pode rodar `pytest`, por exemplo
-        # pytest
+        echo "Rodando testes..."
+        python -m unittest discover -s tests  
 
     - name: Build da imagem Docker
       run: |
